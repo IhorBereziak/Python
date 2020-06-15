@@ -21,32 +21,38 @@
 # - для удаление "\n" используем функцию "map"
 
 # class Files:
+#     def __init__(self, file1, file2):
+#         self.file1 = file1
+#         self.file2 = file2
+#         self.lists = []
+#
 #     def swap(self):
-#         with open('file1.txt') as file1, open('file2.txt') as file2:
-#             file1, file2 = file2, file1
-#             f1 = file1.read().splitlines()
-#             f2 = file2.read().splitlines()
-#         return f'file1: {f1}, file2: {f2}'
+#         if self.lists:
+#             self.lists.clear()
+#         with open(self.file1) as file1, open(self.file2) as file2:
+#             self.lists.append(file1.readlines())
+#             self.lists.append(file2.readlines())
+#         list1, list2 = self.lists
+#         with open(self.file1, 'w') as file1, open(self.file2, 'w') as file2:
+#             file1.write(''.join(list2))
+#             file2.write(''.join(list1))
+#
 #     def to_dict(self):
-#         with open('file1.txt') as file1, open('file2.txt') as file2:
-#             l1 = [row for row in file1.read().splitlines()]
-#             l2 = [row for row in file2.read().splitlines()]
-#             d = dict(zip(l2, l1))
-#         return d
-# f = Files().swap()
-# print(f)
-# dic = Files().to_dict()
-# print(dic)
-# def readlines():
-#     with open('file1.txt') as file1, open('file2.txt') as file2:
-#         # l1 = [row.rstrip('\n') for row in file1]
-#         # l2 = [row.rstrip('\n') for row in file2]
-#         l1 = list(map(lambda row: row.rstrip('\n'), file1))
-#         l2 = list(map(lambda row: row.rstrip('\n'), file2))
-#         print(l1)
-#         print(l2)
-# readlines()
-
+#         if not self.lists:
+#             with open(self.file1) as file1, open(self.file2) as file2:
+#                 self.lists.append(file1.readlines())
+#                 self.lists.append(file2.readlines())
+#         list1, list2 = self.lists
+#         list1 = list(
+#             map(lambda item: int(item.rstrip('\n')) if item.rstrip('\n').isdigit() else item.rstrip('\n'), list1))
+#         list2 = list(
+#             map(lambda item: int(item.rstrip('\n')) if item.rstrip('\n').isdigit() else item.rstrip('\n'), list2))
+#         return dict(zip(list1, list2))
+#
+# file = Files('file1.txt', 'file2.txt')
+# file.swap()
+# print(file.to_dict())
+# -----------------------------------------------------------------------------------------------------------------
 # 0) створити клас User, який в init приймає name i mail.
 # 1) створити клас Letter, який в init приймає text
 # 2) створити функцію send_letter яка створює об'єкт user і letter,
@@ -61,53 +67,61 @@
 #   4) вихід
 
 
-class User:
-    def __init__(self, name, mail):
-        self.name = name
-        self.mail = mail
-
-class Letter:
-    def __init__(self, text):
-        self.text = text
-
-users = {}
-
-def send_letter(name, mail, text):
-    user = User(name, mail)
-    letter = Letter(text)
-    with open(f"{user.name}.txt", 'w') as file:
-        file.write(letter.text)
-    users[user.name] = {f'{user.mail}': letter.text}
-
-def hr():
-    print('------------------------------------------------------')
-
-while True:
-    print('1. Run send_letter')
-    print('2. Show all users; list name what is in dict')
-    print('3. Search name')
-    print('4. Exit')
-    choice = input('Make your choice: ')
-    print('')
-    if not choice.isdigit():
-        continue
-    choice = int(choice)
-    if choice == 1:
-        name = input('Enter name: ')
-        mail = input('Enter e-mail: ')
-        text = input('Enter text: ')
-        send_letter(name, mail, text)
-    if choice == 2:
-        hr()
-        for item in users:
-            print(item)
-        hr()
-    if choice == 3:
-        name = input('Enter name: ')
-        if name not in users:
-            print('This name is not in file')
-        else:
-            for k, v in users.items():
-                print(f'{k}: {v}')
-    if choice == 4:
-        break
+# class User:
+#     def __init__(self, name, mail):
+#         self.name = name
+#         self.mail = mail
+#
+# class Letter:
+#     def __init__(self, text):
+#         self.text = text
+#
+# users = {}
+#
+# def send_letter(name, mail, text):
+#     user = User(name, mail)
+#     letter = Letter(text)
+#     with open(f"{user.name}.txt", 'w') as file:
+#         file.write(letter.text)
+#     users[user.name] = {'email': user.mail, 'text': letter.text}
+#
+# def hr():
+#     print('------------------------------------------------------')
+#
+# while True:
+#     print('1. Run send_letter')
+#     print('2. Show all users; list name what is in dict')
+#     print('3. Search name')
+#     print('4. Exit')
+#     choice = input('Make your choice: ')
+#     print('')
+#     if not choice.isdigit():
+#         continue
+#     choice = int(choice)
+#     if choice == 1:
+#         name = input('Enter name: ')
+#         mail = input('Enter e-mail: ')
+#         text = input('Enter text: ')
+#         send_letter(name, mail, text)
+#     if choice == 2:
+#         hr()
+#         for item in users:
+#             print(item)
+#         hr()
+#     if choice == 3:
+#         name = input('Enter name: ')
+#         hr()
+#         if name not in users:
+#             print('This name is not in file')
+#         else:
+#             for k, v in users.items():
+#                 print(f'{k}: {v}')
+#         hr()
+#     if choice == 4:
+#         break
+#----------------------------------------------------------------------------
+# list = [1, 2, 3, 4, 5]
+#
+# a,_, b, *_ = list
+# print(a)
+# print(b)
