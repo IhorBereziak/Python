@@ -59,7 +59,7 @@
 #   2) переглянути всіх юзерів з словника - вивести список імен які є в словнику
 #   3) переглянути лист - запитати ім'я, якщо є в словнику вивести лист, якщо немає то сказати що немає такого
 #   4) вихід
-users = {}
+
 
 class User:
     def __init__(self, name, mail):
@@ -70,24 +70,14 @@ class Letter:
     def __init__(self, text):
         self.text = text
 
+users = {}
+
 def send_letter(name, mail, text):
     user = User(name, mail)
     letter = Letter(text)
     with open(f"{user.name}.txt", 'w') as file:
         file.write(letter.text)
-        users[user.name] = letter.text
-
-
-def search_name(arr, name):
-    hr()
-    check = True
-    for item in arr:
-        if name.lower().strip() == item.lower().strip():
-            print(arr.keys())
-            check = False
-    if check:
-        print("Name not found!!!")
-    hr()
+    users[user.name] = {f'{user.mail}': letter.text}
 
 def hr():
     print('------------------------------------------------------')
@@ -103,16 +93,21 @@ while True:
         continue
     choice = int(choice)
     if choice == 1:
-        send_letter('Olga', 'yyy', 'Hello Brother')
-        send_letter('Alex', 'zzz', 'Hello Dad')
-        send_letter('Pit', 'xxx', 'Hello Mom')
+        name = input('Enter name: ')
+        mail = input('Enter e-mail: ')
+        text = input('Enter text: ')
+        send_letter(name, mail, text)
     if choice == 2:
         hr()
-        print(users)
-        hr()
-        print(users.keys())
+        for item in users:
+            print(item)
         hr()
     if choice == 3:
-        search_name(users, input('Enter name: '))
+        name = input('Enter name: ')
+        if name not in users:
+            print('This name is not in file')
+        else:
+            for k, v in users.items():
+                print(f'{k}: {v}')
     if choice == 4:
         break
